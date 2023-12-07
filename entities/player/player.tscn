@@ -1,0 +1,106 @@
+[gd_scene load_steps=13 format=3 uid="uid://xm7drdl0o7l2"]
+
+[ext_resource type="Script" path="res://entities/player/player.gd" id="1_8w0qv"]
+[ext_resource type="Texture2D" uid="uid://bmhv6p763e4eb" path="res://entities/player/assets/0x72_DungeonTilesetII_v1.6.png" id="1_s3b45"]
+[ext_resource type="Script" path="res://common/state_management/StateMachine.gd" id="3_4ff84"]
+[ext_resource type="Script" path="res://entities/player/player_movement.gd" id="3_dnsum"]
+[ext_resource type="Script" path="res://entities/player/states/idle_state.gd" id="5_71l0u"]
+[ext_resource type="Script" path="res://entities/player/states/fall_state.gd" id="6_5kwkn"]
+[ext_resource type="Script" path="res://entities/player/states/jump_state.gd" id="7_rj6ek"]
+
+[sub_resource type="Animation" id="Animation_v0hv6"]
+resource_name = "fall"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [110, 111]
+}
+
+[sub_resource type="Animation" id="Animation_wh8qb"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [104, 105, 104]
+}
+
+[sub_resource type="Animation" id="Animation_sp7qr"]
+resource_name = "jump"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [104, 107, 108]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3xmj7"]
+_data = {
+"fall": SubResource("Animation_v0hv6"),
+"idle": SubResource("Animation_wh8qb"),
+"jump": SubResource("Animation_sp7qr")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_miw27"]
+radius = 6.0
+height = 18.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 15
+script = ExtResource("1_8w0qv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -16)
+texture = ExtResource("1_s3b45")
+hframes = 32
+vframes = 16
+frame = 104
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3xmj7")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("CapsuleShape2D_miw27")
+debug_color = Color(0.847059, 0.352941, 0.368627, 0.419608)
+
+[node name="MoveComponent" type="Node" parent="."]
+script = ExtResource("3_dnsum")
+
+[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("3_4ff84")
+starting_state = NodePath("PlayerIdleState")
+
+[node name="PlayerIdleState" type="Node" parent="StateMachine"]
+script = ExtResource("5_71l0u")
+
+[node name="PlayerFallState" type="Node" parent="StateMachine"]
+script = ExtResource("6_5kwkn")
+
+[node name="PlayerJumpState" type="Node" parent="StateMachine"]
+script = ExtResource("7_rj6ek")
