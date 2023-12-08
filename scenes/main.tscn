@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckgcmpmoa685y"]
+[gd_scene load_steps=8 format=3 uid="uid://ckgcmpmoa685y"]
 
 [ext_resource type="Texture2D" uid="uid://doc7836llru0c" path="res://common/assets/tileset_desert.png" id="1_8cf8p"]
+[ext_resource type="Script" path="res://scenes/battlefield.gd" id="1_sr7k1"]
 [ext_resource type="PackedScene" uid="uid://xm7drdl0o7l2" path="res://entities/player/player.tscn" id="2_eeckd"]
+[ext_resource type="PackedScene" uid="uid://tledxhr5fw0q" path="res://entities/player/player_hand.tscn" id="4_g5ksd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yv8vl"]
 texture = ExtResource("1_8cf8p")
@@ -123,19 +125,36 @@ texture = ExtResource("1_8cf8p")
 physics_layer_0/collision_layer = 8
 sources/0 = SubResource("TileSetAtlasSource_yv8vl")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2f2kr"]
+size = Vector2(432, 192)
+
 [node name="main" type="Node2D"]
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="Battlefield" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 0
+script = ExtResource("1_sr7k1")
+
+[node name="TileMap" type="TileMap" parent="Battlefield"]
 texture_filter = 1
 tile_set = SubResource("TileSet_ppqai")
 format = 2
-layer_0/tile_data = PackedInt32Array(196604, 196608, 1, 196605, 262144, 1, 196606, 196608, 1, 196607, 262144, 1, 131072, 196608, 1, 131073, 262144, 1, 131074, 327680, 1, 196610, 327680, 2, 196611, 393216, 2, 327679, 196608, 4, 262144, 262144, 4, 262145, 327680, 4, 262146, 393216, 4, 327678, 65536, 4, 262138, 65536, 4, 262139, 131072, 4, 262140, 196608, 4, 262141, 262144, 4, 262142, 196608, 3, 196609, 327680, 3, 196608, 262144, 2, 262143, 131072, 3, 196602, 131072, 1, 196603, 196608, 1, -8, 524288, 3, -7, 589824, 3, -6, 655360, 3)
+layer_0/tile_data = PackedInt32Array(196604, 196608, 1, 196605, 262144, 1, 196606, 196608, 1, 196607, 262144, 1, 131072, 196608, 1, 131073, 262144, 1, 131074, 327680, 1, 196610, 327680, 2, 196611, 393216, 2, 327679, 196608, 4, 262144, 262144, 4, 262145, 327680, 4, 262146, 393216, 4, 327678, 65536, 4, 262138, 65536, 4, 262139, 131072, 4, 262140, 196608, 4, 262141, 262144, 4, 262142, 196608, 3, 196609, 327680, 3, 196608, 262144, 2, 262143, 131072, 3, 196602, 131072, 1, 196603, 196608, 1, -8, 524288, 3, -7, 589824, 3, -6, 655360, 3, 458737, 262144, 3, 393201, 262144, 3, 327665, 262144, 3, 262129, 262144, 3, 196593, 262144, 3, 131057, 262144, 3, 65521, 262144, 3, -15, 262144, 3, -65551, 262144, 3, -131087, 262144, 3, -196623, 262144, 3, -262159, 262144, 3, -327695, 262144, 3, -393231, 262144, 3, -393230, 262144, 3, -393229, 262144, 3, -393228, 262144, 3, -393227, 262144, 3, -393226, 262144, 3, -393225, 262144, 3, -393224, 262144, 3, -393223, 262144, 3, -393222, 262144, 3, -393221, 262144, 3, -393220, 262144, 3, -393219, 262144, 3, -393218, 262144, 3, -393217, 262144, 3, -458752, 262144, 3, -458751, 262144, 3, -458750, 262144, 3, -458749, 262144, 3, -458748, 262144, 3, -458747, 262144, 3, -458746, 262144, 3, -458745, 262144, 3, -458744, 262144, 3, -458743, 262144, 3, -458742, 262144, 3, -458741, 262144, 3, -458740, 262144, 3, -458739, 262144, 3, -393203, 262144, 3, -327667, 262144, 3, -262131, 262144, 3, -196595, 262144, 3, -131059, 262144, 3, -65523, 262144, 3, 13, 262144, 3, 65549, 262144, 3, 131085, 262144, 3, 196621, 262144, 3, 262157, 262144, 3, 327693, 262144, 3, 393229, 262144, 3, 393228, 262144, 3, 393227, 262144, 3, 393226, 262144, 3, 393225, 262144, 3, 393224, 262144, 3, 393223, 262144, 3, 393222, 262144, 3, 393221, 262144, 3, 393220, 262144, 3, 393219, 262144, 3, 393218, 262144, 3, 393217, 262144, 3, 393216, 262144, 3, 458751, 262144, 3, 458750, 262144, 3, 458749, 262144, 3, 458748, 262144, 3, 458747, 262144, 3, 458746, 262144, 3, 458745, 262144, 3, 458744, 262144, 3, 458743, 262144, 3, 458742, 262144, 3, 458741, 262144, 3, 458740, 262144, 3, 458739, 262144, 3, 458738, 262144, 3)
 layer_1/z_index = -1
 layer_1/tile_data = PackedInt32Array(131075, 196608, 0, -65544, 196608, 0, 131071, 262144, 0, 65536, 196608, 0, 131070, 196608, 0, 131067, 262144, 0)
 
-[node name="Player" parent="." instance=ExtResource("2_eeckd")]
+[node name="Player" parent="Battlefield" instance=ExtResource("2_eeckd")]
 position = Vector2(-55, 32)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Battlefield/Player"]
 position = Vector2(35, -32)
 position_smoothing_enabled = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Battlefield"]
+position = Vector2(-8, 0)
+shape = SubResource("RectangleShape2D_2f2kr")
+debug_color = Color(0.298039, 0.627451, 0.176471, 0.054902)
+
+[node name="PlayerHand" parent="." node_paths=PackedStringArray("player", "battlefield") instance=ExtResource("4_g5ksd")]
+player = NodePath("../Battlefield/Player")
+battlefield = NodePath("../Battlefield")
